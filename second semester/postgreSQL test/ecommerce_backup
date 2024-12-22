@@ -1,0 +1,433 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 17.2
+-- Dumped by pg_dump version 17.2
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- Name: customers; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.customers (
+    customer_id integer NOT NULL,
+    name character varying(100) NOT NULL,
+    email character varying(100) NOT NULL,
+    phone_number character varying(15),
+    address text
+);
+
+
+ALTER TABLE public.customers OWNER TO postgres;
+
+--
+-- Name: customers_customer_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.customers_customer_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.customers_customer_id_seq OWNER TO postgres;
+
+--
+-- Name: customers_customer_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.customers_customer_id_seq OWNED BY public.customers.customer_id;
+
+
+--
+-- Name: order_items; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.order_items (
+    order_item_id integer NOT NULL,
+    order_id integer,
+    product_id integer,
+    quantity integer NOT NULL,
+    price numeric(10,2) NOT NULL
+);
+
+
+ALTER TABLE public.order_items OWNER TO postgres;
+
+--
+-- Name: order_items_order_item_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.order_items_order_item_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.order_items_order_item_id_seq OWNER TO postgres;
+
+--
+-- Name: order_items_order_item_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.order_items_order_item_id_seq OWNED BY public.order_items.order_item_id;
+
+
+--
+-- Name: orders; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.orders (
+    order_id integer NOT NULL,
+    customer_id integer,
+    order_date timestamp without time zone NOT NULL,
+    total_amount numeric(10,2) NOT NULL
+);
+
+
+ALTER TABLE public.orders OWNER TO postgres;
+
+--
+-- Name: orders_order_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.orders_order_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.orders_order_id_seq OWNER TO postgres;
+
+--
+-- Name: orders_order_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.orders_order_id_seq OWNED BY public.orders.order_id;
+
+
+--
+-- Name: products; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.products (
+    product_id integer NOT NULL,
+    product_name character varying(100) NOT NULL,
+    category character varying(100),
+    price numeric(10,2) NOT NULL,
+    stock_quantity integer NOT NULL
+);
+
+
+ALTER TABLE public.products OWNER TO postgres;
+
+--
+-- Name: products_product_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.products_product_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public.products_product_id_seq OWNER TO postgres;
+
+--
+-- Name: products_product_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.products_product_id_seq OWNED BY public.products.product_id;
+
+
+--
+-- Name: customers customer_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.customers ALTER COLUMN customer_id SET DEFAULT nextval('public.customers_customer_id_seq'::regclass);
+
+
+--
+-- Name: order_items order_item_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.order_items ALTER COLUMN order_item_id SET DEFAULT nextval('public.order_items_order_item_id_seq'::regclass);
+
+
+--
+-- Name: orders order_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.orders ALTER COLUMN order_id SET DEFAULT nextval('public.orders_order_id_seq'::regclass);
+
+
+--
+-- Name: products product_id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.products ALTER COLUMN product_id SET DEFAULT nextval('public.products_product_id_seq'::regclass);
+
+
+--
+-- Data for Name: customers; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.customers (customer_id, name, email, phone_number, address) FROM stdin;
+1	John Smith	john.smith@email.com	(555) 123-4567	123 Main St, Springfield, IL 62701
+2	Emily Johnson	emily.j@gmail.com	(555) 987-6543	456 Oak Avenue, Rivertown, CA 90210
+3	Michael Chen	michael.chen@outlook.com	(555) 246-8135	789 Maple Road, Lakeside, WA 98001
+4	Sarah Rodriguez	sarah.rod@yahoo.com	(555) 369-2580	321 Pine Street, Mountainview, CO 80301
+5	David Kim	david.kim@hotmail.com	(555) 159-7530	654 Birch Lane, Oceanside, FL 33433
+6	Rachel Williams	rachel.w@gmail.com	(555) 753-9514	987 Cedar Court, Greenville, TX 75401
+7	Christopher Lee	chris.lee@email.com	(555) 852-4762	258 Elm Street, Sunnyvale, NY 12345
+8	Amanda Martinez	amanda.m@outlook.com	(555) 741-9630	147 Willow Drive, Riverside, OR 97301
+9	Thomas Brown	thomas.brown@yahoo.com	(555) 963-8520	369 Redwood Avenue, Portland, MI 49503
+10	Jessica Garcia	jessica.g@hotmail.com	(555) 147-2589	582 Sycamore Road, Salem, NJ 08001
+11	Jane Eliot	jane.eliot@email.com	(555) 235-768	123 Main St, Springfield, IL 62701
+\.
+
+
+--
+-- Data for Name: order_items; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.order_items (order_item_id, order_id, product_id, quantity, price) FROM stdin;
+1	1	3	2	15.99
+2	1	2	1	24.50
+3	2	4	1	249.99
+4	3	1	1	79.99
+5	4	6	1	129.99
+6	4	5	1	59.49
+7	5	6	1	129.99
+11	7	5	1	99.95
+12	8	8	1	59.99
+13	9	9	1	89.50
+14	9	10	2	34.99
+15	10	9	1	89.50
+16	11	2	2	24.50
+17	12	4	1	249.99
+18	13	3	3	15.99
+19	13	1	1	79.99
+20	14	1	1	79.99
+21	15	7	1	39.99
+22	15	10	1	34.99
+23	16	6	1	129.99
+24	16	5	1	59.49
+25	16	8	1	59.99
+26	17	6	1	129.99
+27	18	5	1	99.95
+28	19	8	1	59.99
+29	20	9	1	89.50
+30	20	10	2	34.99
+32	9	2	1	24.50
+33	13	7	1	39.99
+34	16	1	1	79.99
+35	17	8	1	59.99
+36	18	7	1	39.99
+37	19	3	1	15.99
+38	20	5	1	99.95
+39	4	2	1	24.50
+40	11	10	1	34.99
+41	12	9	1	89.50
+42	14	7	1	39.99
+43	15	6	1	129.99
+44	2	8	1	59.99
+45	5	1	1	79.99
+46	7	3	1	15.99
+47	10	5	1	99.95
+48	11	4	1	249.99
+49	13	2	1	24.50
+50	16	10	1	34.99
+\.
+
+
+--
+-- Data for Name: orders; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.orders (order_id, customer_id, order_date, total_amount) FROM stdin;
+1	3	2024-01-15 00:00:00	104.49
+2	1	2024-01-16 00:00:00	249.99
+3	5	2024-01-17 00:00:00	79.99
+4	2	2024-01-18 00:00:00	189.48
+5	7	2024-01-19 00:00:00	129.99
+7	6	2024-01-21 00:00:00	99.95
+8	8	2024-01-22 00:00:00	59.99
+9	10	2024-01-23 00:00:00	174.97
+10	9	2024-01-24 00:00:00	89.50
+11	1	2024-01-25 00:00:00	54.98
+12	3	2024-01-26 00:00:00	249.99
+13	5	2024-01-27 00:00:00	139.48
+14	2	2024-01-28 00:00:00	79.99
+15	7	2024-01-29 00:00:00	44.99
+16	4	2024-01-30 00:00:00	184.97
+17	6	2024-01-31 00:00:00	129.99
+18	8	2024-02-01 00:00:00	99.95
+19	10	2024-02-02 00:00:00	59.99
+20	9	2024-02-03 00:00:00	174.97
+\.
+
+
+--
+-- Data for Name: products; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.products (product_id, product_name, category, price, stock_quantity) FROM stdin;
+2	Stainless Steel Water Bottle	Outdoor Gear	24.50	300
+3	Organic Coffee Beans - Medium Roast	Food & Beverage	15.99	200
+4	Ergonomic Office Chair	Furniture	249.99	50
+5	Fitness Tracker Watch	Electronics	99.95	100
+6	Non-Stick Cookware Set	Kitchen	129.99	75
+7	Yoga Mat	Fitness	39.99	225
+8	Portable Bluetooth Speaker	Electronics	59.99	180
+9	Leather Messenger Bag	Accessories	89.50	60
+10	Gourmet Chocolate Collection	Food & Beverage	34.99	120
+1	Wireless Bluetooth Headphones	Electronics	79.99	145
+\.
+
+
+--
+-- Name: customers_customer_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.customers_customer_id_seq', 11, true);
+
+
+--
+-- Name: order_items_order_item_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.order_items_order_item_id_seq', 50, true);
+
+
+--
+-- Name: orders_order_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.orders_order_id_seq', 20, true);
+
+
+--
+-- Name: products_product_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.products_product_id_seq', 10, true);
+
+
+--
+-- Name: customers customers_email_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.customers
+    ADD CONSTRAINT customers_email_key UNIQUE (email);
+
+
+--
+-- Name: customers customers_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.customers
+    ADD CONSTRAINT customers_pkey PRIMARY KEY (customer_id);
+
+
+--
+-- Name: order_items order_items_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.order_items
+    ADD CONSTRAINT order_items_pkey PRIMARY KEY (order_item_id);
+
+
+--
+-- Name: orders orders_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.orders
+    ADD CONSTRAINT orders_pkey PRIMARY KEY (order_id);
+
+
+--
+-- Name: products products_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.products
+    ADD CONSTRAINT products_pkey PRIMARY KEY (product_id);
+
+
+--
+-- Name: idx_customer_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX idx_customer_id ON public.orders USING btree (customer_id);
+
+
+--
+-- Name: idx_order_date; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX idx_order_date ON public.orders USING btree (order_date);
+
+
+--
+-- Name: idx_product_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX idx_product_id ON public.order_items USING btree (product_id);
+
+
+--
+-- Name: order_items order_items_order_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.order_items
+    ADD CONSTRAINT order_items_order_id_fkey FOREIGN KEY (order_id) REFERENCES public.orders(order_id) ON DELETE CASCADE;
+
+
+--
+-- Name: order_items order_items_product_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.order_items
+    ADD CONSTRAINT order_items_product_id_fkey FOREIGN KEY (product_id) REFERENCES public.products(product_id) ON DELETE CASCADE;
+
+
+--
+-- Name: orders orders_customer_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.orders
+    ADD CONSTRAINT orders_customer_id_fkey FOREIGN KEY (customer_id) REFERENCES public.customers(customer_id) ON DELETE CASCADE;
+
+
+--
+-- PostgreSQL database dump complete
+--
+
